@@ -7,16 +7,28 @@ namespace LibraryDomainModel
     {
         static void Main(string[] args)
         {
-            Catalog catalog1 = new Catalog();
+            Library library1 = new Library();
             Librarian librarian1 = new Librarian();
+            Patron kowalski1 = new Patron();
 
-            librarian1.addBook(catalog1);
-            // Console.WriteLine(catalog1.GetNumberOfBookitems()); // debug test
+            kowalski1.CreateAccount(library1);
 
-            librarian1.searchBook(catalog1, "AXAD");
+            library1.ShowIdsOfAllAccounts();
             
+            library1.AddNewBookToLibrary();
 
 
+            
+            librarian1.addBookToCatalog(library1.libraryCatalog, library1.book_Items[0]);
+
+            kowalski1.Reserve(library1, "default");
+
+
+            librarian1.SearchBook(library1.libraryCatalog, "aaa");
+
+            kowalski1.SearchBook(library1, "default");
+
+            // library1.DeleteCatalog(library1.catalogs[0]);
         }
 
 
@@ -25,6 +37,7 @@ namespace LibraryDomainModel
        
         
     }
+
 
     public struct Address
     {

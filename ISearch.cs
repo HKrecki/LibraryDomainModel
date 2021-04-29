@@ -9,5 +9,6 @@ namespace LibraryDomainModel
     interface ISearch
     {
         public void SearchByISBN(string _ISBN);
+        public void SearchByBookName(string _bookName);
     }
 }

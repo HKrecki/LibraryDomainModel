@@ -10,7 +10,12 @@ namespace LibraryDomainModel
 {
     public class Catalog : IManage, ISearch
     {
+        string catalogName;
+
         public Dictionary<string, Book_Item> bookItemCatalog = new Dictionary<string, Book_Item>();
+
+        public Catalog() { }
+        public Catalog(string _catalogName) { catalogName = _catalogName; }
 
         /*
          * Add bookitem to catalog
@@ -25,8 +30,11 @@ namespace LibraryDomainModel
             Console.WriteLine(newBook.ISBN);
         }
 
-        /*
-         * Check book of given ISBN exists in catalog
+
+        // Interfeace ISearch //
+
+        // TODO: Search in library not in catalog, because library have only 1 catalog
+        /* Check book of given ISBN exists in catalog
          * Method from interface ISearch
          */
         public void SearchByISBN(string _ISBN)
@@ -39,6 +47,23 @@ namespace LibraryDomainModel
                 }
             }
         }
+        /* Check book of given name exists in library
+         * 
+         */
+        public void SearchByBookName(string _bookName)
+        {
+            foreach (var item in bookItemCatalog)
+            {
+                if(item.Value.name == _bookName)
+                {
+                    Console.WriteLine($"Found book of name: {_bookName}");
+                }
+            }
+        }
+
+
+
+
 
         /*
          * Get number of bookitems in catalog

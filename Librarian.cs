@@ -24,21 +24,14 @@ namespace LibraryDomainModel
             position = "default";
         }
 
-        public void addBook(Catalog _catalog)
+        /* Adds existing book(in library) to catalog
+         */
+        public void addBookToCatalog(Catalog _catalog, Book_Item _book)
         {
-            Book_Item newBook = new Book_Item();
-
-            // insert ISBN and other params of book
-            // TODO: implement cin
-            newBook.ISBN = "AXAD";
-
-            // from interface
-            _catalog.AddBookItem(newBook);
+            _catalog.AddBookItem(_book);
         }
-        // TODO:  public void addBook(Catalog _catalog, BookItem _newBook)
 
-
-        public void searchBook(Catalog _catalog, string _ISBN)
+        public void SearchBook(Catalog _catalog, string _ISBN)
         {
             _catalog.SearchByISBN(_ISBN);
         }
