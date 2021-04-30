@@ -16,17 +16,24 @@ namespace LibraryDomainModel
 
         Account patronAccount;
 
+
+        public Patron(string _firstName, string _lastName, string _city, string _street, string _postalcode)
+        {
+            name.firstName = _firstName;
+            name.lastName = _lastName;
+
+            address.city = _city;
+            address.street = _street;
+            address.postalCode = _postalcode;
+        }
+
         /* Patron creates account in given library
          * - this account is assigned to this patron
          * - Account is added to library accounts list
          */
         public void CreateAccount(Library _library)
         {
-            patronAccount = new Account();
-            
-            // Write all of the info of account there, without number
-
-            _library.AddAccountToLibrarySystem(patronAccount);
+            patronAccount = new Account(_library);
         }
 
         public void SearchBook(Library _library ,string _bookName)
@@ -38,6 +45,13 @@ namespace LibraryDomainModel
         {
             patronAccount.Reserve(_library ,_bookName);
         }
+
+
+        public void Borrow(Library _library, string _bookName, int _timeInDays)
+        {
+            patronAccount.Borrow(_library, _bookName, _timeInDays);
+        }
+        
 
     }
 }

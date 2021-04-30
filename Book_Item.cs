@@ -11,6 +11,7 @@ namespace LibraryDomainModel
         public string barcode = "default";
         public string tag = "default"; // RFID
         public string title = "default";
+        
         public bool isReferenceOnly = false;
         public Language lang = Language.English;
         public int numberOfPages = 0;
@@ -20,5 +21,7 @@ namespace LibraryDomainModel
         public int loanPeriod = -1;
         public DateTime dueDate = new DateTime(2008, 5, 1, 8, 30, 52);
         public bool isOverdue = false;
+        public bool isBorrowed = false;
+        public bool isReserved = false;
     }
 }
