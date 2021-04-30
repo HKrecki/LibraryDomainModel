@@ -11,24 +11,14 @@ namespace LibraryDomainModel
         readonly string name;
         readonly Address address;
 
-
         /* List of all books in this library, not only this in catalogs
-         * List of books which have library, no divide in catalogs. 
-         * Library doesn't manage books by itself. Only librarian can add a new book 
-         * or delete it
+         * 
          */
         public List<Book_Item> libraryBookList = new List<Book_Item>();
         /* List of all accounts in library
-         * List of all created accounts in library
+         * 
          */
         public List<Account> accounts = new List<Account>();
-
-        // test
-        public void displayZeroBook()
-        {
-            Console.WriteLine(libraryBookList[0].name);
-        }
-
 
         /////////////
         // Catalog //
@@ -53,7 +43,6 @@ namespace LibraryDomainModel
         // BookItems //
 
         /* Adds new book to library (not catalog)
-         * Like a library bought a new book which is availble from now
          */
         public void AddNewBookToLibrary(string _isbn, string _barcode, string _tag, string _title, bool _isReferenceOnly, Language _lang, int _numberOfPages, Format _format)
         {

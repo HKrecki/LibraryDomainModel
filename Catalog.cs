@@ -25,9 +25,6 @@ namespace LibraryDomainModel
         {
             // Add book to catalog -> method from Dictionary class
             bookItemCatalog.Add(newBook.ISBN, newBook);
-
-            // test
-            // Console.WriteLine(newBook.ISBN);
         }
 
 

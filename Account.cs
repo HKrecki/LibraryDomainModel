@@ -11,7 +11,12 @@ namespace LibraryDomainModel
         public int number;
         DateTime opened;
         AccountState state;
-        public History history;
+        History history = new History();
+
+        int currentlyBorrowedBooks = 0;
+        int currentlyReservedBooks = 0;
+        int maxNumerOfBorrowedBooks = 2;
+        int maxNumberOfReservedBooks = 2;
 
         public Account(Library _library)
         {
@@ -25,82 +30,95 @@ namespace LibraryDomainModel
         // Reserve 
         public void Reserve(Library _library, string _bookName)
         {
-            Console.WriteLine("Z funkcji reserve");
-
-            string keyOfRightBookInCatalog = "none";
-
-            bool isBookAvailable = false;
-
-            // Find given book in library catalog
-            foreach (var item in _library.libraryCatalog.bookItemCatalog)
+            if (currentlyReservedBooks < maxNumberOfReservedBooks)
             {
-                if (item.Value.name == _bookName) // Found title in catalog
+
+                Console.WriteLine("Z funkcji reserve");
+
+                string keyOfRightBookInCatalog = "none";
+
+                bool isBookAvailable = false;
+
+                // Find given book in library catalog
+                foreach (var item in _library.libraryCatalog.bookItemCatalog)
                 {
-                    // Check if book is available to reserve = is borrowed and not reserved already
-                    if (item.Value.isReserved == false && item.Value.isBorrowed == true)
+                    if (item.Value.name == _bookName) // Found title in catalog
                     {
-                        keyOfRightBookInCatalog = item.Key;
-                        isBookAvailable = true;
+                        // Check if book is available to reserve = is borrowed and not reserved already
+                        if (item.Value.isReserved == false && item.Value.isBorrowed == true && currentlyReservedBooks < maxNumberOfReservedBooks)
+                        {
+                            keyOfRightBookInCatalog = item.Key;
+                            isBookAvailable = true;
+                        }
                     }
                 }
-            }
 
-            if (isBookAvailable) // book is available
-            {
-                var aux = _library.libraryCatalog.bookItemCatalog[keyOfRightBookInCatalog];
+                if (isBookAvailable) // book is available
+                {
+                    var aux = _library.libraryCatalog.bookItemCatalog[keyOfRightBookInCatalog];
 
-                aux.isReserved = true;
+                    aux.isReserved = true;
 
-                Console.WriteLine($"Uzytkownik {this.number} zarezerowal ksiazke: {aux.title}, ISBN: {aux.ISBN}");
+                    currentlyReservedBooks++;
+                    Console.WriteLine($"Uzytkownik {this.number} zarezerowal ksiazke: {aux.title}, ISBN: {aux.ISBN}");
+                }
+                else
+                {
+                    Console.WriteLine("Ksiazka jest niedostepna");
+                }
             }
             else
             {
-                Console.WriteLine("Ksiazka jest niedostepna");
+                Console.WriteLine("Nie mozesz zarezerwowac wiecej ksiazek, osiagnales limit");
             }
         }
 
         // Borrow
         public void Borrow(Library _library, string _bookName, int _timeInDays)
         {
-            Console.WriteLine("Z funkcji borrow");
-            // _library.DisplayListOfBooksInCatlog();
-            // _library.DisplayListOfBooksInLibrary();
-
-            string keyOfRightBookInCatalog = "none";
-
-            bool isBookAvailable = false;
-
-            // Find given book in library catalog
-            foreach (var item in _library.libraryCatalog.bookItemCatalog)
+            if (currentlyBorrowedBooks < maxNumerOfBorrowedBooks)
             {
-                if (item.Value.name == _bookName) // Found title in catalog
+                string keyOfRightBookInCatalog = "none";
+
+                bool isBookAvailable = false;
+
+                // Find given book in library catalog
+                foreach (var item in _library.libraryCatalog.bookItemCatalog)
                 {
-                    // Check if book is available (not referenceOnly, not borrowed or reserved)
-                    if (item.Value.isReferenceOnly == false && (item.Value.dueDate < DateTime.Now && item.Value.isOverdue == false) && item.Value.isBorrowed == false)
+                    if (item.Value.name == _bookName) // Found title in catalog
                     {
-                        keyOfRightBookInCatalog = item.Key;
-                        isBookAvailable = true;   
+                        // Check if book is available (not referenceOnly, not borrowed or reserved)
+                        if (item.Value.isReferenceOnly == false && (item.Value.dueDate < DateTime.Now && item.Value.isOverdue == false) && item.Value.isBorrowed == false && currentlyBorrowedBooks < maxNumerOfBorrowedBooks)
+                        {
+                            keyOfRightBookInCatalog = item.Key;
+                            isBookAvailable = true;
+                        }
                     }
                 }
-            }
 
-            if (isBookAvailable) // book is available
-            {
-                var aux = _library.libraryCatalog.bookItemCatalog[keyOfRightBookInCatalog];
+                if (isBookAvailable) // book is available
+                {
+                    var aux = _library.libraryCatalog.bookItemCatalog[keyOfRightBookInCatalog];
 
-                aux.borrowed = DateTime.Now;
-                aux.loanPeriod = _timeInDays;
-                aux.dueDate = DateTime.Now.AddDays(_timeInDays);
-                aux.isOverdue = false;
-                aux.isBorrowed = true;
+                    aux.borrowed = DateTime.Now;
+                    aux.loanPeriod = _timeInDays;
+                    aux.dueDate = DateTime.Now.AddDays(_timeInDays);
+                    aux.isOverdue = false;
+                    aux.isBorrowed = true;
 
-                Console.WriteLine($"Uzytkownik {this.number} wyprzyczyl ksiazke: {aux.title}, ISBN: {aux.ISBN}");
+                    history.AddBookToHistory(aux);
+                    currentlyBorrowedBooks++;
+                    Console.WriteLine($"Uzytkownik {this.number} wypozyczyl ksiazke: {aux.title}, ISBN: {aux.ISBN}");
+                }
+                else
+                {
+                    Console.WriteLine("Ksiazka jest niedostepna");
+                }
             }
             else
             {
-                Console.WriteLine("Ksiazka jest niedostepna");
+                Console.WriteLine("Nie mozesz wypozyczyc wiecej ksiazek, osiagnales limit");
             }
-
         }
 
         // Access
@@ -117,14 +135,13 @@ namespace LibraryDomainModel
             number = _newNumber;
         }
 
-
-        public struct History
+        class History
         {
-            List<Book_Item> bookItemsHistoryList;
+            List<Book_Item> booksHistory = new List<Book_Item>();
 
-            public void AddBookToHistory(Book_Item book)
+            public void AddBookToHistory(Book_Item _book)
             {
-                bookItemsHistoryList.Add(book);
+                booksHistory.Add(_book);
             }
         }
     }

@@ -6,9 +6,6 @@ using System.Threading.Tasks;
 
 namespace LibraryDomainModel
 {
-    /* Student not an account in library system. Patron(student) can create account and
-     * borrow/reserve bookItems
-     */
     public class Patron
     {
         FullName name;
@@ -28,8 +25,6 @@ namespace LibraryDomainModel
         }
 
         /* Patron creates account in given library
-         * - this account is assigned to this patron
-         * - Account is added to library accounts list
          */
         public void CreateAccount(Library _library)
         {

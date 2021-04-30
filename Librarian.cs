@@ -35,10 +35,6 @@ namespace LibraryDomainModel
 
         public void AddBookToCatalogByBarcode(Library _library, string _barcode)
         {
-            // Search book of given barocode in library collection
-            // Check this book is not already in catalog
-            // Add book to catalog if is in library and isn.t in catalog
-
             bool isAvailableInLibrary = false;
             bool isAlreadyInCatalog = false;
           

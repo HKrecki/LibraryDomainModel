@@ -8,7 +8,6 @@ namespace LibraryDomainModel
 {
     public class Book
     {
-        
         public string ISBN = "default" ;
         public string name = "default" ;
         
@@ -17,5 +16,7 @@ namespace LibraryDomainModel
         public string publisher = "default";
         public DateTime publicationDate;
         public string lang = "default";
+
+        Author author;
     }
 }
