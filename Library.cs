@@ -17,39 +17,69 @@ namespace LibraryDomainModel
          * Library doesn't manage books by itself. Only librarian can add a new book 
          * or delete it
          */
-        public List<Book_Item> book_Items = new List<Book_Item>();
+        public List<Book_Item> libraryBookList = new List<Book_Item>();
         /* List of all accounts in library
          * List of all created accounts in library
          */
         public List<Account> accounts = new List<Account>();
 
-
+        /////////////
         // Catalog //
+
         public Catalog libraryCatalog = new Catalog();
 
-        /*
-        /* Creates new catalog
-         * Method creates catalog and add it's to library list of catalogs
-         *
-        public void CreateCatalog()
+        public void DisplayListOfBooksInCatlog()
         {
-            libraryCatalog = new Catalog();
-        } 
-        */
+            Console.WriteLine();
+            Console.WriteLine("Wszystkie ksiazki w katalogu:");
+            foreach(var item in libraryCatalog.bookItemCatalog)
+            {
+                Console.WriteLine($"Title: {item.Value.title}, ISBN: {item.Value.title}, Barcode: {item.Value.barcode}, RFID tag: {item.Value.tag}");
+            }
+            Console.WriteLine();
+        }
 
+        /////////////
+
+        ///////////////
         // BookItems //
+
         /* Adds new book to library (not catalog)
          * Like a library bought a new book which is availble from now
          */
-        public void AddNewBookToLibrary()
+        public void AddNewBookToLibrary(string _isbn, string _barcode, string _tag, string _title, bool _isReferenceOnly, Language _lang, int _numberOfPages, Format _format)
         {
             Book_Item newBook = new Book_Item();
 
-            newBook.ISBN = "aaa"; // debug
+            newBook.ISBN = _isbn;
+            newBook.barcode = _barcode;
+            newBook.tag = _tag;
+            newBook.title = _title;
+            newBook.isReferenceOnly = _isReferenceOnly;
+            newBook.lang = _lang;
+            newBook.numberOfPages = _numberOfPages;
+            newBook.format = _format;
 
-            book_Items.Add(newBook);
+            // Add book to library list
+            libraryBookList.Add(newBook);
+        }
+        
+        /* Display all of the books in library
+         */ 
+        public void DisplayListOfBooksInLibrary()
+        {
+            Console.WriteLine();
+            Console.WriteLine("Wszystkie ksiazki w bibliotece:");
+            foreach(var item in libraryBookList)
+            {
+                Console.WriteLine($"Title: {item.title}, ISBN: {item.ISBN}, Barcode: {item.barcode}, RFID tag: {item.tag}");
+            }
+            Console.WriteLine();
         }
 
+        ///////////////
+
+        //////////////
         // Accounts //
         /* Add account to system on request of patron
          */
@@ -69,7 +99,6 @@ namespace LibraryDomainModel
                 Console.WriteLine(accounts[i].number);
             }
         }
-
 
     }
 }

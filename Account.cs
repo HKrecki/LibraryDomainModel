@@ -22,7 +22,7 @@ namespace LibraryDomainModel
         {
             foreach (var item in _library.libraryCatalog.bookItemCatalog)
             {
-                if( item.Value.name == _bookName) // TODO and if book status is free
+                if( item.Value.name == _bookName ) // TODO and if book status is free
                 {
                     // Change book status to reserved
                 }

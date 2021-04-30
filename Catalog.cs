@@ -27,7 +27,7 @@ namespace LibraryDomainModel
             bookItemCatalog.Add(newBook.ISBN, newBook);
 
             // test
-            Console.WriteLine(newBook.ISBN);
+            // Console.WriteLine(newBook.ISBN);
         }
 
 
