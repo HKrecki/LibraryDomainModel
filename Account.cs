@@ -25,20 +25,38 @@ namespace LibraryDomainModel
         // Reserve 
         public void Reserve(Library _library, string _bookName)
         {
+            Console.WriteLine("Z funkcji reserve");
+
+            string keyOfRightBookInCatalog = "none";
+
+            bool isBookAvailable = false;
+
+            // Find given book in library catalog
             foreach (var item in _library.libraryCatalog.bookItemCatalog)
             {
-                if( item.Value.name == _bookName ) // TODO and if book status is free
+                if (item.Value.name == _bookName) // Found title in catalog
                 {
-                    // Change book status to reserved
-
-                }
-                else
-                {
-                    // Show theres no books like this or all of this book are
-                    // borrowed or reserved
+                    // Check if book is available to reserve = is borrowed and not reserved already
+                    if (item.Value.isReserved == false && item.Value.isBorrowed == true)
+                    {
+                        keyOfRightBookInCatalog = item.Key;
+                        isBookAvailable = true;
+                    }
                 }
             }
 
+            if (isBookAvailable) // book is available
+            {
+                var aux = _library.libraryCatalog.bookItemCatalog[keyOfRightBookInCatalog];
+
+                aux.isReserved = true;
+
+                Console.WriteLine($"Uzytkownik {this.number} zarezerowal ksiazke: {aux.title}, ISBN: {aux.ISBN}");
+            }
+            else
+            {
+                Console.WriteLine("Ksiazka jest niedostepna");
+            }
         }
 
         // Borrow

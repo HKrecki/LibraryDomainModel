@@ -42,7 +42,7 @@ namespace LibraryDomainModel
             
             foreach(var item in libraryCatalog.bookItemCatalog)
             {
-                Console.WriteLine($"Title: {item.Value.title}, ISBN: {item.Value.title}, Barcode: {item.Value.barcode}, RFID tag: {item.Value.tag}, Due date: {item.Value.dueDate}");
+                Console.WriteLine($"Title: {item.Value.title}, Barcode: {item.Value.barcode}, RFID tag: {item.Value.tag}, Due date: {item.Value.dueDate}, Reserved: {item.Value.isReserved}");
             }
             Console.WriteLine();
         }

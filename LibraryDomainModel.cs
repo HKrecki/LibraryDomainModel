@@ -51,32 +51,18 @@ namespace LibraryDomainModel
 
             library1.DisplayListOfBooksInCatlog();
 
-
-            // Console.WriteLine(library1.libraryCatalog.bookItemCatalog["123"].name);
-            // Console.WriteLine(library1.libraryCatalog.bookItemCatalog["123"].name);
-
+            
             kowalski.Borrow(library1, "Megatrends", 14);
             kowalski.Borrow(library1, "Megatrends", 14);
             kowalski.Borrow(library1, "Megatrends", 14);
             nowak.Borrow(library1, "Megatrends", 30);
             nowak.Borrow(library1, "Clean Code", 30);
 
+            kowalski.Reserve(library1, "Clean Code");
+            nowak.Reserve(library1, "Megatrends");
+
             library1.DisplayListOfBooksInCatlog();
-
-            // library1.DisplayListOfBooksInCatlog();
-
-            // librarian1.SearchBook(library1.libraryCatalog, "aaa");
-
-            // kowalski.SearchBook(library1, "default");
-
-            // library1.DeleteCatalog(library1.catalogs[0]);
         }
-
-
-
-
-
-
     }
 
 
